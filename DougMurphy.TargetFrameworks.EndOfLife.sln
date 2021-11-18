@@ -9,9 +9,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DougMurphy.TargetFrameworks.EndOfLife", "src\DougMurphy.TargetFrameworks.EndOfLife\DougMurphy.TargetFrameworks.EndOfLife.csproj", "{3C99FD3F-88CF-45BA-8CA7-1AA727002F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DougMurphy.TargetFrameworks.EndOfLife.Tests.Unit", "tests\DougMurphy.TargetFrameworks.EndOfLife.Tests.Unit\DougMurphy.TargetFrameworks.EndOfLife.Tests.Unit.csproj", "{B9FAEC68-0EE5-4493-BEF1-D858E628F556}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3C99FD3F-88CF-45BA-8CA7-1AA727002F95} = {4BC0C340-EB92-465A-9653-BBE4E4A0F474}
+		{B9FAEC68-0EE5-4493-BEF1-D858E628F556} = {AA14AFCA-0225-46B2-807F-69020E0EE745}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C99FD3F-88CF-45BA-8CA7-1AA727002F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C99FD3F-88CF-45BA-8CA7-1AA727002F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C99FD3F-88CF-45BA-8CA7-1AA727002F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C99FD3F-88CF-45BA-8CA7-1AA727002F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9FAEC68-0EE5-4493-BEF1-D858E628F556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9FAEC68-0EE5-4493-BEF1-D858E628F556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9FAEC68-0EE5-4493-BEF1-D858E628F556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9FAEC68-0EE5-4493-BEF1-D858E628F556}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
