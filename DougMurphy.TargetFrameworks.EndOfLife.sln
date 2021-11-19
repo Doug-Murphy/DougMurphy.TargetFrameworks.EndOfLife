@@ -7,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{F5CCEE43-4D13-472B-9C05-D7006885AD48}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DougMurphy.TargetFrameworks.EndOfLife", "src\DougMurphy.TargetFrameworks.EndOfLife\DougMurphy.TargetFrameworks.EndOfLife.csproj", "{3C99FD3F-88CF-45BA-8CA7-1AA727002F95}"
