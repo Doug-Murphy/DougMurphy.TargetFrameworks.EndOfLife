@@ -9,12 +9,11 @@
         <PackageReleaseNotes>Initial release</PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
+        <PackageTags>target framework;end of life;tfm;eol;csproj</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" Condition="$(TargetFramework) != 'net5.0' AND $(TargetFramework) != 'net6.0'" />
-        <PackageReference Include="System.Text.Json" Version="5.0.2" Condition="$(TargetFramework) == 'net5.0'" />
-        <PackageReference Include="System.Text.Json" Version="6.0.0" Condition="$(TargetFramework) == 'net6.0'" />
     </ItemGroup>
 
 </Project>
