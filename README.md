@@ -11,3 +11,6 @@ By default, this method will get all TFMs that are currently EOL. Two overloads 
 
 ## CheckTargetFrameworkForEndOfLife
 This method takes in a singular TFM or semicolon-delimited pluralized TFM and returns back which one(s), if any, of them are currently EOL.
+
+# Web API Host
+If you don't have something set up to automatically update your NuGet packages, and you don't want to worry about updating this one as new TFMs and EOL dates are added, check out [my API on GitHub](https://github.com/Doug-Murphy/EndOfLifeApi) for hassle-free updates!
