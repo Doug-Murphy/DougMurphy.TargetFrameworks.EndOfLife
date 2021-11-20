@@ -10,6 +10,8 @@
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework;end of life;tfm;eol;csproj</PackageTags>
+        <PackageProjectUrl>https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
