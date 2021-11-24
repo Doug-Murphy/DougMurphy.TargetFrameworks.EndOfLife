@@ -12,6 +12,7 @@
         <PackageTags>target framework;end of life;tfm;eol;csproj</PackageTags>
         <PackageProjectUrl>https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
