@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
+	/// <summary>
+	/// Contains the methods for determining whether or not a TFM is EOL.
+	/// </summary>
 	public static class TargetFrameworkEndOfLifeHelper {
 		//TFM list found on https://docs.microsoft.com/en-us/dotnet/standard/frameworks
 		private static readonly Dictionary<string, DateTime?> TargetFrameworksWithEndOfLifeDate = new() {
@@ -112,6 +115,12 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			                                                                         .OrderBy(tfm => tfm).ToList().AsReadOnly());
 		}
 
+		/// <summary>
+		/// Given a singular or plural TFM, return the TFM(s) are EOL, if any.
+		/// </summary>
+		/// <param name="rawTfm">The TFM specifier that you want to check.</param>
+		/// <exception cref="ArgumentNullException">Thrown when the TFM parameter is null or whitespace.</exception>
+		/// <exception cref="ArgumentException">Thrown when the TFM parameter is invalid by containing only a semicolon.</exception>
 		public static TargetFrameworkCheckResponse CheckTargetFrameworkForEndOfLife(string rawTfm) {
 			if (string.IsNullOrWhiteSpace(rawTfm)) {
 				throw new ArgumentNullException(nameof(rawTfm));
@@ -130,14 +139,13 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 
 		/// <summary>Determine if a singular Target Framework Moniker is currently end of life.</summary>
 		/// <param name="tfm">The singular Target Framework Moniker to check for (eg. net45, netcoreapp2.1)</param>
-		/// <returns></returns>
 		/// <exception cref="TargetFrameworkUnknownException">Thrown when the TFM is not currently registered by the application.</exception>
 		private static bool IsSingularTfmEol(string tfm) {
 			if (TargetFrameworksWithEndOfLifeDate.ContainsKey(tfm)) {
 				return TargetFrameworksWithEndOfLifeDate[tfm].HasValue && TargetFrameworksWithEndOfLifeDate[tfm]!.Value <= DateTime.UtcNow;
 			}
 
-			throw new TargetFrameworkUnknownException($"I do not have TFM '{tfm}' in my registry. If this is a valid TFM, please log an issue on GitHub at https://github.com/Doug-Murphy/EndOfLifeApi/issues/new.");
+			throw new TargetFrameworkUnknownException($"I do not have TFM '{tfm}' in my registry. If this is a valid TFM, please log an issue on GitHub at https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife/issues/new");
 		}
 	}
 }

@@ -6,6 +6,9 @@ using Newtonsoft.Json.Converters;
 #endif
 
 namespace DougMurphy.TargetFrameworks.EndOfLife.Enums {
+	/// <summary>
+	/// The timeframe units to use when forecasting to determine EOL TFMs.
+	/// </summary>
 #if NET5_0_OR_GREATER
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 #else
