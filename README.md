@@ -1,3 +1,6 @@
+![Nuget Version](https://img.shields.io/nuget/v/DougMurphy.TargetFrameworks.EndOfLife?label=nuget.org)
+![Nuget Downloads](https://img.shields.io/nuget/dt/DougMurphy.TargetFrameworks.EndOfLife)
+
 # Introduction
 
 Knowing if your Target Framework Moniker (TFM) is End of Life (EOL) or not can be very important in certain circumstances.
