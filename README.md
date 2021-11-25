@@ -15,5 +15,76 @@ By default, this method will get all TFMs that are currently EOL. Two overloads 
 ## CheckTargetFrameworkForEndOfLife
 This method takes in a singular TFM or semicolon-delimited pluralized TFM and returns back which one(s), if any, of them are currently EOL.
 
+# Example Usage
+
+## Checking if a specific TFM is EOL
+```c#
+using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
+using DougMurphy.TargetFrameworks.EndOfLife.Models;
+using System;
+
+public void CheckIfSingleTfmIsEol() {
+    var tfm = "net5.0";
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm);
+    
+    if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
+        //the specified TFM is not EOL
+    }
+    else {
+        //the specified TFM is EOL
+        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine(endOfLifeTargetFramework);
+        }
+    }
+}
+
+public void CheckIfMultipleTfmIsEol() {
+    var tfm = "net5.0;net45";
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm);
+    
+    if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
+        //none of the specified TFMs are EOL
+    }
+    else {
+        //at least one of the specified TFMs are EOL
+        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine(endOfLifeTargetFramework);
+        }
+    }
+}
+```
+
+## Getting all TFMs that are currently EOL
+```c#
+using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
+using DougMurphy.TargetFrameworks.EndOfLife.Models;
+using System;
+
+public void GetAllTfmsThatAreEol() {
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers();
+    
+    foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+        Console.WriteLine(endOfLifeTargetFramework);
+    }
+}
+```
+
+## Getting all TFMs that are EOL within a specified forecasted date
+```c#
+using DougMurphy.TargetFrameworks.EndOfLife.Enums;
+using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
+using DougMurphy.TargetFrameworks.EndOfLife.Models;
+using System;
+
+public void GetAllTfmsThatAreEolWithinOneYear() {
+    //Get all EOL TFMs that are currently EOL, or will be EOL within 1 year of current date.
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit.Year, 1);
+        
+    foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+        Console.WriteLine(endOfLifeTargetFramework);
+    }
+}
+```
+
 # Web API Host
 If you don't have something set up to automatically update your NuGet packages, and you don't want to worry about updating this one as new TFMs and EOL dates are added, check out [my API on GitHub](https://github.com/Doug-Murphy/EndOfLifeApi) for hassle-free updates!
