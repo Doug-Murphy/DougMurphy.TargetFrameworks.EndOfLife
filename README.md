@@ -38,9 +38,39 @@ public void CheckIfSingleTfmIsEol() {
     }
 }
 
-public void CheckIfMultipleTfmIsEol() {
+public void CheckIfAnyOfMultipleTfmIsEol() {
     var tfm = "net5.0;net45";
     TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm);
+    
+    if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
+        //none of the specified TFMs are EOL
+    }
+    else {
+        //at least one of the specified TFMs are EOL
+        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine(endOfLifeTargetFramework);
+        }
+    }
+}
+
+public void CheckIfSingleTfmIsEolWithinThreeMonths() {
+    var tfm = "net5.0";
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm, TimeframeUnit.Month, 3);
+    
+    if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
+        //the specified TFM is not EOL
+    }
+    else {
+        //the specified TFM is EOL
+        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine(endOfLifeTargetFramework);
+        }
+    }
+}
+
+public void CheckIfAnyOfMultipleTfmIsEolWithinThreeMonths() {
+    var tfm = "net5.0;net45";
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm, TimeframeUnit.Month, 3);
     
     if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
         //none of the specified TFMs are EOL
