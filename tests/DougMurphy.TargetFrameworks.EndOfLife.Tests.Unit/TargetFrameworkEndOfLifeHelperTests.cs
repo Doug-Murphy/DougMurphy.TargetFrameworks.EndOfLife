@@ -19,6 +19,16 @@ public class TargetFrameworkEndOfLifeHelperTests {
 		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "net45");
 	}
 
+	[Test(Description = "When given a singular TFM that is currently EOL, and forecasting the date forward, it determines that it is EOL.")]
+	public void TargetFrameworkThatIsEolCorrectlyShowsEolWithDayForecasting() {
+		const string TFM_TO_USE = "net45";
+
+		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE, TimeframeUnit.Day, 1);
+
+		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
+		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "net45");
+	}
+
 	[Test(Description = "When given a singular TFM that is not EOL, it determines that it is not EOL.")]
 	public void TargetFrameworkThatIsNotEolCorrectlyShowsNotEol() {
 		const string TFM_TO_USE = "net6.0";
