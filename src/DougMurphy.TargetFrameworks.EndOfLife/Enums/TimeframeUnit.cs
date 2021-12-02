@@ -6,18 +6,20 @@ using Newtonsoft.Json.Converters;
 #endif
 
 namespace DougMurphy.TargetFrameworks.EndOfLife.Enums {
-	/// <summary>
-	/// The timeframe units to use when forecasting to determine EOL TFMs.
-	/// </summary>
+	/// <summary>The timeframe units to use when forecasting to determine EOL TFMs.</summary>
 #if NET5_0_OR_GREATER
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 #else
 	[JsonConverter(typeof(StringEnumConverter))]
 #endif
 	public enum TimeframeUnit {
+		/// <summary>Forecast out in increments of days</summary>
 		Day,
+		/// <summary>Forecast out in increments of weeks</summary>
 		Week,
+		/// <summary>Forecast out in increments of months</summary>
 		Month,
+		/// <summary>Forecast out in increments of years</summary>
 		Year,
 	}
 }
