@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
-	/// <summary>
-	/// Contains the methods for determining whether or not a TFM is EOL.
-	/// </summary>
+	/// <summary>Contains the methods for determining whether or not a TFM is EOL.</summary>
 	public static class TargetFrameworkEndOfLifeHelper {
 		//TFM list found on https://docs.microsoft.com/en-us/dotnet/standard/frameworks
 		private static readonly Dictionary<string, DateTime?> TargetFrameworksWithEndOfLifeDate = new() {
@@ -89,15 +87,9 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 		/// <summary>Get all TFMs that will be EOL by a forecasted date from current date.</summary>
 		/// <param name="timeframeUnit">The date unit to forecast.</param>
 		/// <param name="timeframeAmount">The amount of the date unit to forecast.</param>
-		/// <exception cref="ArgumentOutOfRangeException">Thrown when the <see cref="timeframeUnit" /> is an invalid option.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">Thrown when the <see cref="TimeframeUnit" /> is an invalid option.</exception>
 		public static TargetFrameworkCheckResponse GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit timeframeUnit, byte timeframeAmount) {
-			DateTime forecastedDateToCompare = timeframeUnit switch {
-				TimeframeUnit.Day => DateTime.UtcNow.AddDays(timeframeAmount),
-				TimeframeUnit.Week => DateTime.UtcNow.AddDays(7 * timeframeAmount),
-				TimeframeUnit.Month => DateTime.UtcNow.AddMonths(timeframeAmount),
-				TimeframeUnit.Year => DateTime.UtcNow.AddYears(timeframeAmount),
-				_ => throw new ArgumentOutOfRangeException(nameof(timeframeUnit), timeframeUnit, null),
-			};
+			DateTime forecastedDateToCompare = GetForecastedDateTime(timeframeUnit, timeframeAmount);
 
 			return GetAllEndOfLifeTargetFrameworkMonikers(forecastedDateToCompare);
 		}
@@ -115,13 +107,47 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			                                                                         .OrderBy(tfm => tfm).ToList().AsReadOnly());
 		}
 
-		/// <summary>
-		/// Given a singular or plural TFM, return the TFM(s) are EOL, if any.
-		/// </summary>
+		/// <summary>Given a singular or plural TFM, return the TFM(s) that are currently EOL, if any.</summary>
 		/// <param name="rawTfm">The TFM specifier that you want to check.</param>
 		/// <exception cref="ArgumentNullException">Thrown when the TFM parameter is null or whitespace.</exception>
 		/// <exception cref="ArgumentException">Thrown when the TFM parameter is invalid by containing only a semicolon.</exception>
 		public static TargetFrameworkCheckResponse CheckTargetFrameworkForEndOfLife(string rawTfm) {
+			IEnumerable<string> tfms = ParseRawTfm(rawTfm);
+
+			string[] endOfLifeTargetFrameworks = tfms.Where(x => IsSingularTfmEol(x, DateTime.UtcNow)).ToArray();
+
+			return new TargetFrameworkCheckResponse(endOfLifeTargetFrameworks.ToList().AsReadOnly());
+		}
+
+		/// <summary>Given a singular or plural TFM, return the TFM(s) that will be EOL by a forecasted date from the current date, if any.</summary>
+		/// <param name="rawTfm">The TFM specifier that you want to check.</param>
+		/// <param name="timeframeUnit">The date unit to forecast.</param>
+		/// <param name="timeframeAmount">The amount of the date unit to forecast.</param>
+		/// <exception cref="ArgumentNullException">Thrown when the TFM parameter is null or whitespace.</exception>
+		/// <exception cref="ArgumentException">Thrown when the TFM parameter is invalid by containing only a semicolon.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">Thrown when the <see cref="TimeframeUnit" /> is an invalid option.</exception>
+		public static TargetFrameworkCheckResponse CheckTargetFrameworkForEndOfLife(string rawTfm, TimeframeUnit timeframeUnit, byte timeframeAmount) {
+			DateTime forecastedDate = GetForecastedDateTime(timeframeUnit, timeframeAmount);
+			IEnumerable<string> tfms = ParseRawTfm(rawTfm);
+
+			string[] endOfLifeTargetFrameworks = tfms.Where(x => IsSingularTfmEol(x, forecastedDate)).ToArray();
+
+			return new TargetFrameworkCheckResponse(endOfLifeTargetFrameworks.ToList().AsReadOnly());
+		}
+
+		/// <summary>Determine if a singular Target Framework Moniker is currently end of life.</summary>
+		/// <param name="tfm">The singular Target Framework Moniker to check for (eg. net45, netcoreapp2.1)</param>
+		/// <param name="eolBoundaryDate">The date to check the TFM's EOL date against.</param>
+		/// <exception cref="TargetFrameworkUnknownException">Thrown when the TFM is not currently registered by the application.</exception>
+		private static bool IsSingularTfmEol(string tfm, DateTime eolBoundaryDate) {
+			if (TargetFrameworksWithEndOfLifeDate.ContainsKey(tfm)) {
+				return TargetFrameworksWithEndOfLifeDate[tfm].HasValue && TargetFrameworksWithEndOfLifeDate[tfm]!.Value <= eolBoundaryDate;
+			}
+
+			throw new TargetFrameworkUnknownException($"I do not have TFM '{tfm}' in my registry. If this is a valid TFM, please log an issue on GitHub at https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife/issues/new");
+		}
+
+		private static IEnumerable<string> ParseRawTfm(string rawTfm) {
 			if (string.IsNullOrWhiteSpace(rawTfm)) {
 				throw new ArgumentNullException(nameof(rawTfm));
 			}
@@ -132,20 +158,17 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 				throw new ArgumentException($"No Target Framework Monikers could be found in string {rawTfm}");
 			}
 
-			string[] endOfLifeTargetFrameworks = tfms.Where(IsSingularTfmEol).ToArray();
-
-			return new TargetFrameworkCheckResponse(endOfLifeTargetFrameworks.ToList().AsReadOnly());
+			return tfms;
 		}
 
-		/// <summary>Determine if a singular Target Framework Moniker is currently end of life.</summary>
-		/// <param name="tfm">The singular Target Framework Moniker to check for (eg. net45, netcoreapp2.1)</param>
-		/// <exception cref="TargetFrameworkUnknownException">Thrown when the TFM is not currently registered by the application.</exception>
-		private static bool IsSingularTfmEol(string tfm) {
-			if (TargetFrameworksWithEndOfLifeDate.ContainsKey(tfm)) {
-				return TargetFrameworksWithEndOfLifeDate[tfm].HasValue && TargetFrameworksWithEndOfLifeDate[tfm]!.Value <= DateTime.UtcNow;
-			}
-
-			throw new TargetFrameworkUnknownException($"I do not have TFM '{tfm}' in my registry. If this is a valid TFM, please log an issue on GitHub at https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife/issues/new");
+		private static DateTime GetForecastedDateTime(TimeframeUnit timeframeUnit, byte timeframeAmount) {
+			return timeframeUnit switch {
+				TimeframeUnit.Day => DateTime.UtcNow.AddDays(timeframeAmount),
+				TimeframeUnit.Week => DateTime.UtcNow.AddDays(7 * timeframeAmount),
+				TimeframeUnit.Month => DateTime.UtcNow.AddMonths(timeframeAmount),
+				TimeframeUnit.Year => DateTime.UtcNow.AddYears(timeframeAmount),
+				_ => throw new ArgumentOutOfRangeException(nameof(timeframeUnit), timeframeUnit, null),
+			};
 		}
 	}
 }
