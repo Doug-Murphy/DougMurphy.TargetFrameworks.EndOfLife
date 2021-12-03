@@ -6,8 +6,11 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <Version>1.0.0</Version>
-        <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+        <Version>2.0.0</Version>
+        <PackageReleaseNotes>This version incorporates the following changes:
+            * Add support to forecast a date when checking if a specific TFM is EOL.
+            * Include the EOL date of the TFM when returning the TFM(s) that is/are EOL.
+        </PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework end of life tfm eol</PackageTags>
