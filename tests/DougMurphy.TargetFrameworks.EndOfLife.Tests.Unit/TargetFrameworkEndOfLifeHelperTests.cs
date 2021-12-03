@@ -4,6 +4,7 @@ using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
 using DougMurphy.TargetFrameworks.EndOfLife.Models;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace DougMurphy.TargetFrameworks.EndOfLife.Tests.Unit;
 
@@ -16,7 +17,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
 		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "net45");
+		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
 	}
 
 	[Test(Description = "When given a singular TFM that is currently EOL, and forecasting the date forward, it determines that it is EOL.")]
@@ -26,7 +27,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE, TimeframeUnit.Day, 1);
 
 		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "net45");
+		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
 	}
 
 	[Test(Description = "When given a singular TFM that is not EOL, it determines that it is not EOL.")]
@@ -45,19 +46,19 @@ public class TargetFrameworkEndOfLifeHelperTests {
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
 		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "net45");
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "netcoreapp2.1");
+		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
+		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("netcoreapp2.1", new DateTime(2021, 08, 21)));
 	}
 
 	[Test(Description = "When given two TFM's where only one is EOL, it determines that the correct one is EOL.")]
 	public void TwoTargetFrameworksWhenOneIsEolCorrectlyShowsEol() {
-		const string TFM_TO_USE = "net45;net6.0";
+		const string TFM_TO_USE = "net45;net48";
 
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
 		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, "net45");
-		CollectionAssert.DoesNotContain(eolResults.EndOfLifeTargetFrameworks, "net6.0");
+		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
+		CollectionAssert.DoesNotContain(eolResults.EndOfLifeTargetFrameworks.Keys, "net48");
 	}
 
 	[Test(Description = "When given no TFM's, an exception is thrown.")]
