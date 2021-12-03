@@ -103,8 +103,8 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 		/// <param name="eolBoundaryDate">The date to check the TFM's EOL date against.</param>
 		public static TargetFrameworkCheckResponse GetAllEndOfLifeTargetFrameworkMonikers(DateTime eolBoundaryDate) {
 			return new TargetFrameworkCheckResponse(TargetFrameworksWithEndOfLifeDate.Where(tfm => tfm.Value <= eolBoundaryDate)
-			                                                                         .Select(tfm => tfm.Key)
-			                                                                         .OrderBy(tfm => tfm).ToList().AsReadOnly());
+			                                                                         .OrderBy(tfm => tfm.Key)
+			                                                                         .ToDictionary(tfm => tfm.Key, tfm => tfm.Value!.Value));
 		}
 
 		/// <summary>Given a singular or plural TFM, return the TFM(s) that are currently EOL, if any.</summary>
@@ -112,11 +112,7 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 		/// <exception cref="ArgumentNullException">Thrown when the TFM parameter is null or whitespace.</exception>
 		/// <exception cref="ArgumentException">Thrown when the TFM parameter is invalid by containing only a semicolon.</exception>
 		public static TargetFrameworkCheckResponse CheckTargetFrameworkForEndOfLife(string rawTfm) {
-			IEnumerable<string> tfms = ParseRawTfm(rawTfm);
-
-			string[] endOfLifeTargetFrameworks = tfms.Where(x => IsSingularTfmEol(x, DateTime.UtcNow)).ToArray();
-
-			return new TargetFrameworkCheckResponse(endOfLifeTargetFrameworks.ToList().AsReadOnly());
+			return CheckTargetFrameworkForEndOfLife(rawTfm, DateTime.UtcNow);
 		}
 
 		/// <summary>Given a singular or plural TFM, return the TFM(s) that will be EOL by a forecasted date from the current date, if any.</summary>
@@ -128,23 +124,40 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 		/// <exception cref="ArgumentOutOfRangeException">Thrown when the <see cref="TimeframeUnit" /> is an invalid option.</exception>
 		public static TargetFrameworkCheckResponse CheckTargetFrameworkForEndOfLife(string rawTfm, TimeframeUnit timeframeUnit, byte timeframeAmount) {
 			DateTime forecastedDate = GetForecastedDateTime(timeframeUnit, timeframeAmount);
+
+			return CheckTargetFrameworkForEndOfLife(rawTfm, forecastedDate);
+		}
+
+		public static TargetFrameworkCheckResponse CheckTargetFrameworkForEndOfLife(string rawTfm, DateTime eolBoundaryDate) {
 			IEnumerable<string> tfms = ParseRawTfm(rawTfm);
 
-			string[] endOfLifeTargetFrameworks = tfms.Where(x => IsSingularTfmEol(x, forecastedDate)).ToArray();
+			Dictionary<string, DateTime> endOfLifeTargetFrameworksWithEolDate = new();
+			foreach (string tfm in tfms) {
+				if (IsSingularTfmEol(tfm, eolBoundaryDate, out DateTime? eolDate)) {
+					endOfLifeTargetFrameworksWithEolDate.Add(tfm, eolDate!.Value);
+				}
+			}
 
-			return new TargetFrameworkCheckResponse(endOfLifeTargetFrameworks.ToList().AsReadOnly());
+			return new TargetFrameworkCheckResponse(endOfLifeTargetFrameworksWithEolDate);
 		}
 
 		/// <summary>Determine if a singular Target Framework Moniker is currently end of life.</summary>
 		/// <param name="tfm">The singular Target Framework Moniker to check for (eg. net45, netcoreapp2.1)</param>
 		/// <param name="eolBoundaryDate">The date to check the TFM's EOL date against.</param>
+		/// <param name="eolDate">The date</param>
 		/// <exception cref="TargetFrameworkUnknownException">Thrown when the TFM is not currently registered by the application.</exception>
-		private static bool IsSingularTfmEol(string tfm, DateTime eolBoundaryDate) {
-			if (TargetFrameworksWithEndOfLifeDate.ContainsKey(tfm)) {
-				return TargetFrameworksWithEndOfLifeDate[tfm].HasValue && TargetFrameworksWithEndOfLifeDate[tfm]!.Value <= eolBoundaryDate;
+		private static bool IsSingularTfmEol(string tfm, DateTime eolBoundaryDate, out DateTime? eolDate) {
+			if (!TargetFrameworksWithEndOfLifeDate.ContainsKey(tfm)) {
+				throw new TargetFrameworkUnknownException($"I do not have TFM '{tfm}' in my registry. If this is a valid TFM, please log an issue on GitHub at https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife/issues/new");
 			}
 
-			throw new TargetFrameworkUnknownException($"I do not have TFM '{tfm}' in my registry. If this is a valid TFM, please log an issue on GitHub at https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife/issues/new");
+			if (TargetFrameworksWithEndOfLifeDate[tfm].HasValue && TargetFrameworksWithEndOfLifeDate[tfm].Value <= eolBoundaryDate) {
+				eolDate = TargetFrameworksWithEndOfLifeDate[tfm]!.Value;
+				return true;
+			}
+
+			eolDate = null;
+			return false;
 		}
 
 		private static IEnumerable<string> ParseRawTfm(string rawTfm) {
