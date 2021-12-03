@@ -152,7 +152,7 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 		/// <summary>Determine if a singular Target Framework Moniker is currently end of life.</summary>
 		/// <param name="tfm">The singular Target Framework Moniker to check for (eg. net45, netcoreapp2.1)</param>
 		/// <param name="eolBoundaryDate">The date to check the TFM's EOL date against.</param>
-		/// <param name="eolDate">The date</param>
+		/// <param name="eolDate">The EOL date for the TFM. If the TFM is not EOL, this value will be null.</param>
 		/// <exception cref="TargetFrameworkUnknownException">Thrown when the TFM is not currently registered by the application.</exception>
 		private static bool IsSingularTfmEol(string tfm, DateTime eolBoundaryDate, out DateTime? eolDate) {
 			if (!TargetFrameworksWithEndOfLifeDate.ContainsKey(tfm)) {
