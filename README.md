@@ -19,21 +19,23 @@ This method takes in a singular TFM or semicolon-delimited pluralized TFM and re
 
 ## Checking if a specific TFM is EOL
 ```c#
+using DougMurphy.TargetFrameworks.EndOfLife.Enums;
 using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
 using DougMurphy.TargetFrameworks.EndOfLife.Models;
 using System;
+using System.Collections.Generic;
 
 public void CheckIfSingleTfmIsEol() {
     var tfm = "net5.0";
     TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm);
-    
+
     if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
         //the specified TFM is not EOL
     }
     else {
         //the specified TFM is EOL
-        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
-            Console.WriteLine(endOfLifeTargetFramework);
+        foreach (KeyValuePair<string, DateTime> endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine($"{endOfLifeTargetFramework.Key} has an EOL date of {endOfLifeTargetFramework.Value}");
         }
     }
 }
@@ -41,14 +43,14 @@ public void CheckIfSingleTfmIsEol() {
 public void CheckIfAnyOfMultipleTfmIsEol() {
     var tfm = "net5.0;net45";
     TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm);
-    
+
     if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
         //none of the specified TFMs are EOL
     }
     else {
         //at least one of the specified TFMs are EOL
-        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
-            Console.WriteLine(endOfLifeTargetFramework);
+        foreach (KeyValuePair<string, DateTime> endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine($"{endOfLifeTargetFramework.Key} has an EOL date of {endOfLifeTargetFramework.Value}");
         }
     }
 }
@@ -56,14 +58,14 @@ public void CheckIfAnyOfMultipleTfmIsEol() {
 public void CheckIfSingleTfmIsEolWithinThreeMonths() {
     var tfm = "net5.0";
     TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm, TimeframeUnit.Month, 3);
-    
+
     if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
         //the specified TFM is not EOL
     }
     else {
         //the specified TFM is EOL
-        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
-            Console.WriteLine(endOfLifeTargetFramework);
+        foreach (KeyValuePair<string, DateTime> endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine($"{endOfLifeTargetFramework.Key} has an EOL date of {endOfLifeTargetFramework.Value}");
         }
     }
 }
@@ -71,47 +73,42 @@ public void CheckIfSingleTfmIsEolWithinThreeMonths() {
 public void CheckIfAnyOfMultipleTfmIsEolWithinThreeMonths() {
     var tfm = "net5.0;net45";
     TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(tfm, TimeframeUnit.Month, 3);
-    
+
     if (endOfLifeResults.EndOfLifeTargetFrameworks.Count == 0) {
         //none of the specified TFMs are EOL
     }
     else {
         //at least one of the specified TFMs are EOL
-        foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
-            Console.WriteLine(endOfLifeTargetFramework);
+        foreach (KeyValuePair<string, DateTime> endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+            Console.WriteLine($"{endOfLifeTargetFramework.Key} has an EOL date of {endOfLifeTargetFramework.Value}");
         }
     }
 }
 ```
 
-## Getting all TFMs that are currently EOL
-```c#
-using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
-using DougMurphy.TargetFrameworks.EndOfLife.Models;
-using System;
+## Getting a list of TFMs that are currently EOL, or will be within a specified forecasted timeframe
 
-public void GetAllTfmsThatAreEol() {
-    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers();
-    
-    foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
-        Console.WriteLine(endOfLifeTargetFramework);
-    }
-}
-```
-
-## Getting all TFMs that are EOL within a specified forecasted date
 ```c#
 using DougMurphy.TargetFrameworks.EndOfLife.Enums;
 using DougMurphy.TargetFrameworks.EndOfLife.Helpers;
 using DougMurphy.TargetFrameworks.EndOfLife.Models;
 using System;
+using System.Collections.Generic;
+
+public void GetAllTfmsThatAreEol() {
+    TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers();
+
+    foreach (KeyValuePair<string, DateTime> endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+        Console.WriteLine($"{endOfLifeTargetFramework.Key} has an EOL date of {endOfLifeTargetFramework.Value}");
+    }
+}
 
 public void GetAllTfmsThatAreEolWithinOneYear() {
     //Get all EOL TFMs that are currently EOL, or will be EOL within 1 year of current date.
     TargetFrameworkCheckResponse endOfLifeResults = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit.Year, 1);
-        
-    foreach (string endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
-        Console.WriteLine(endOfLifeTargetFramework);
+
+    foreach (KeyValuePair<string, DateTime> endOfLifeTargetFramework in endOfLifeResults.EndOfLifeTargetFrameworks) {
+        Console.WriteLine($"{endOfLifeTargetFramework.Key} has an EOL date of {endOfLifeTargetFramework.Value}");
     }
 }
 ```
