@@ -6,27 +6,35 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <Version>2.0.0</Version>
-        <PackageReleaseNotes>This version incorporates the following changes:
-            * Add support to forecast a date when checking if a specific TFM is EOL.
-            * Include the EOL date of the TFM when returning the TFM(s) that is/are EOL.
-        </PackageReleaseNotes>
+        <Version>2.1.0</Version>
+        <PackageReleaseNotes>Add in support for SourceLink and .snupkg for an improved debugging experience.</PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework end of life tfm eol</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Doug-Murphy/DougMurphy.TargetFrameworks.EndOfLife</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" Condition="$(TargetFramework) != 'net5.0' AND $(TargetFramework) != 'net6.0'"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <!-- Source Link configuration-->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+    
+    <ItemGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" Condition="$(TargetFramework) != 'net5.0' AND $(TargetFramework) != 'net6.0'"/>
     </ItemGroup>
 
 </Project>
