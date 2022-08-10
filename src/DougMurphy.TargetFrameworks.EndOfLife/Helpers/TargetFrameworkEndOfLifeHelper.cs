@@ -74,14 +74,14 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			{"net5.0-windows", new DateTime(2022, 05, 10)},
 
 			//.NET 6 TFMs taken from https://github.com/dotnet/designs/blob/main/accepted/2021/net6.0-tfms/net6.0-tfms.md
-			{"net6.0", new DateTime(2024, 11, 08)},
-			{"net6.0-android", new DateTime(2024, 11, 08)},
-			{"net6.0-ios", new DateTime(2024, 11, 08)},
-			{"net6.0-macos", new DateTime(2024, 11, 08)},
-			{"net6.0-maccatalyst", new DateTime(2024, 11, 08)},
-			{"net6.0-tizen", new DateTime(2024, 11, 08)},
-			{"net6.0-tvos", new DateTime(2024, 11, 08)},
-			{"net6.0-windows", new DateTime(2024, 11, 08)},
+			{"net6.0", new DateTime(2024, 11, 12)},
+			{"net6.0-android", new DateTime(2024, 11, 12)},
+			{"net6.0-ios", new DateTime(2024, 11, 12)},
+			{"net6.0-macos", new DateTime(2024, 11, 12)},
+			{"net6.0-maccatalyst", new DateTime(2024, 11, 12)},
+			{"net6.0-tizen", new DateTime(2024, 11, 12)},
+			{"net6.0-tvos", new DateTime(2024, 11, 12)},
+			{"net6.0-windows", new DateTime(2024, 11, 12)},
 			
 			//.NET 7 TFMs taken from https://devblogs.microsoft.com/dotnet/announcing-dotnet-7-preview-3/
 			{"net7.0", null},
