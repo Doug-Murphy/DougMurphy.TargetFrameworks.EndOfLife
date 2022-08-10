@@ -65,13 +65,13 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			{"netcoreapp3.1", new DateTime(2022, 12, 13)},
 
 			//.NET 5 TFMs taken from https://github.com/dotnet/designs/blob/main/accepted/2020/net5/net5.md
-			{"net5.0", new DateTime(2022, 05, 08)},
-			{"net5.0-android", new DateTime(2022, 05, 08)},
-			{"net5.0-ios", new DateTime(2022, 05, 08)},
-			{"net5.0-macos", new DateTime(2022, 05, 08)},
-			{"net5.0-tvos", new DateTime(2022, 05, 08)},
-			{"net5.0-watchos", new DateTime(2022, 05, 08)},
-			{"net5.0-windows", new DateTime(2022, 05, 08)},
+			{"net5.0", new DateTime(2022, 05, 10)},
+			{"net5.0-android", new DateTime(2022, 05, 10)},
+			{"net5.0-ios", new DateTime(2022, 05, 10)},
+			{"net5.0-macos", new DateTime(2022, 05, 10)},
+			{"net5.0-tvos", new DateTime(2022, 05, 10)},
+			{"net5.0-watchos", new DateTime(2022, 05, 10)},
+			{"net5.0-windows", new DateTime(2022, 05, 10)},
 
 			//.NET 6 TFMs taken from https://github.com/dotnet/designs/blob/main/accepted/2021/net6.0-tfms/net6.0-tfms.md
 			{"net6.0", new DateTime(2024, 11, 08)},
