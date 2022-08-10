@@ -6,8 +6,8 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <Version>2.1.0</Version>
-        <PackageReleaseNotes>Add in support for SourceLink and .snupkg for an improved debugging experience.</PackageReleaseNotes>
+        <Version>2.1.1</Version>
+        <PackageReleaseNotes>Fix EOL dates for .NET Core 3.1, .NET 5, and .NET 6.</PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework end of life tfm eol</PackageTags>
