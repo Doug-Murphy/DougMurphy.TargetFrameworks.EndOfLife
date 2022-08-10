@@ -62,7 +62,7 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			{"netcoreapp2.1", new DateTime(2021, 08, 21)},
 			{"netcoreapp2.2", new DateTime(2019, 12, 23)},
 			{"netcoreapp3.0", new DateTime(2020, 03, 03)},
-			{"netcoreapp3.1", new DateTime(2022, 12, 03)},
+			{"netcoreapp3.1", new DateTime(2022, 12, 13)},
 
 			//.NET 5 TFMs taken from https://github.com/dotnet/designs/blob/main/accepted/2020/net5/net5.md
 			{"net5.0", new DateTime(2022, 05, 08)},
