@@ -1,17 +1,14 @@
 ﻿#if NET5_0_OR_GREATER
-using System.Text.Json.Serialization;
+using JsonConverter = System.Text.Json.Serialization.JsonConverterAttribute;
+using JsonStringEnumConverter = System.Text.Json.Serialization.JsonStringEnumConverter;
 #else
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using JsonConverter = Newtonsoft.Json.JsonConverterAttribute;
+using JsonStringEnumConverter = Newtonsoft.Json.Converters.StringEnumConverter;
 #endif
 
 namespace DougMurphy.TargetFrameworks.EndOfLife.Enums {
 	/// <summary>The timeframe units to use when forecasting to determine EOL TFMs.</summary>
-#if NET5_0_OR_GREATER
 	[JsonConverter(typeof(JsonStringEnumConverter))]
-#else
-	[JsonConverter(typeof(StringEnumConverter))]
-#endif
 	public enum TimeframeUnit {
 		/// <summary>Forecast out in increments of days</summary>
 		Day,

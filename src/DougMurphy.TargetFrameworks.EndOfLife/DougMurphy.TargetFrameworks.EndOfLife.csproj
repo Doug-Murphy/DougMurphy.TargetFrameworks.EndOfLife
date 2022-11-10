@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
         <LangVersion>9</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <Version>2.1.1</Version>
-        <PackageReleaseNotes>Fix EOL dates for .NET Core 3.1, .NET 5, and .NET 6.</PackageReleaseNotes>
+        <Version>2.2.0</Version>
+        <PackageReleaseNotes>Drop support for .NET 5. Add support for .NET 7.</PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework end of life tfm eol</PackageTags>
@@ -34,7 +34,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" Condition="$(TargetFramework) != 'net5.0' AND $(TargetFramework) != 'net6.0'"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'net7.0'"/>
     </ItemGroup>
 
 </Project>

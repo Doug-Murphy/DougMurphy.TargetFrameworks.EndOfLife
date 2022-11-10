@@ -82,15 +82,15 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			{"net6.0-tizen", new DateTime(2024, 11, 12)},
 			{"net6.0-tvos", new DateTime(2024, 11, 12)},
 			{"net6.0-windows", new DateTime(2024, 11, 12)},
-			
-			//.NET 7 TFMs taken from https://devblogs.microsoft.com/dotnet/announcing-dotnet-7-preview-3/
-			{"net7.0", null},
-			{"net7.0-android", null},
-			{"net7.0-ios", null},
-			{"net7.0-macos", null},
-			{"net7.0-maccatalyst", null},
-			{"net7.0-tvos", null},
-			{"net7.0-windows", null},
+
+			//.NET 7 TFMs taken from https://learn.microsoft.com/en-us/dotnet/standard/frameworks#net-5-os-specific-tfms
+			{"net7.0", new DateTime(2024, 05, 14)},
+			{"net7.0-android", new DateTime(2024, 05, 14)},
+			{"net7.0-ios", new DateTime(2024, 05, 14)},
+			{"net7.0-macos", new DateTime(2024, 05, 14)},
+			{"net7.0-maccatalyst", new DateTime(2024, 05, 14)},
+			{"net7.0-tvos", new DateTime(2024, 05, 14)},
+			{"net7.0-windows", new DateTime(2024, 05, 14)},
 		};
 
 		/// <summary>Get all TFMs with their respective EOL dates that will be EOL by a forecasted date from current date.</summary>
