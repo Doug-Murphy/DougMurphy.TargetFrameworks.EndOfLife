@@ -34,7 +34,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'net7.0'"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'net7.0'"/>
     </ItemGroup>
 
 </Project>
