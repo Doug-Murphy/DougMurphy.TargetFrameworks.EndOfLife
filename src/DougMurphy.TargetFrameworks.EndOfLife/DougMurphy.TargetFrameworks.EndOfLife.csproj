@@ -6,8 +6,8 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <Version>2.2.0</Version>
-        <PackageReleaseNotes>Drop support for .NET 5. Add support for .NET 7.</PackageReleaseNotes>
+        <Version>2.2.1</Version>
+        <PackageReleaseNotes>Add EOL date for .NET Framework 4.6.2</PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework end of life tfm eol</PackageTags>
@@ -19,7 +19,7 @@
     <ItemGroup>
         <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
-    
+
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <!-- Source Link configuration-->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -28,13 +28,13 @@
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
-    
+
     <ItemGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'net7.0'"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'net7.0'"/>
     </ItemGroup>
 
 </Project>
