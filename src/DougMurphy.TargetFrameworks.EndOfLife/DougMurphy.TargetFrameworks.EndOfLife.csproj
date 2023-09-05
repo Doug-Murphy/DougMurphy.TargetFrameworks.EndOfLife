@@ -6,8 +6,8 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <Version>2.2.1</Version>
-        <PackageReleaseNotes>Add EOL date for .NET Framework 4.6.2</PackageReleaseNotes>
+        <Version>2.2.2</Version>
+        <PackageReleaseNotes>Add EOL date for .NET Framework 4.8.1</PackageReleaseNotes>
         <Authors>Doug Murphy</Authors>
         <Description>This NuGet package provides a simple API for checking if a Target Framework Moniker is, or will be, end of life.</Description>
         <PackageTags>target framework end of life tfm eol</PackageTags>
