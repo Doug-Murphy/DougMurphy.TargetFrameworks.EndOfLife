@@ -53,7 +53,9 @@ namespace DougMurphy.TargetFrameworks.EndOfLife.Helpers {
 			{"net472", null},
 			{"v4.7.2", null},
 			{"net48", null},
+			{"net481", null},
 			{"v4.8", null},
+			{"v4.8.1", null},
 
 			//EOL for .NET Core and .NET 5+ found on https://docs.microsoft.com/en-us/lifecycle/products/microsoft-net-and-net-core
 			{"netcoreapp1.0", new DateTime(2019, 06, 27)},
