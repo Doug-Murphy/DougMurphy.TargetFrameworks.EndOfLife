@@ -5,6 +5,7 @@
         <LangVersion>9</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
         <Version>2.2.2</Version>
         <PackageReleaseNotes>Add EOL date for .NET Framework 4.8.1</PackageReleaseNotes>
