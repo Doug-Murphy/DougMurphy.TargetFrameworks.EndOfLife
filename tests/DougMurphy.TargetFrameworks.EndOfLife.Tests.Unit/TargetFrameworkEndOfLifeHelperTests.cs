@@ -16,8 +16,8 @@ public class TargetFrameworkEndOfLifeHelperTests {
 
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
-		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Is.Not.Empty);
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Has.Member(new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12, 0, 0, 0, DateTimeKind.Utc))));
 	}
 
 	[Test(Description = "When given a singular TFM that is currently EOL, and forecasting the date forward, it determines that it is EOL.")]
@@ -26,17 +26,17 @@ public class TargetFrameworkEndOfLifeHelperTests {
 
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE, TimeframeUnit.Day, 1);
 
-		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Is.Not.Empty);
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Has.Member(new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12, 0, 0, 0, DateTimeKind.Utc))));
 	}
 
 	[Test(Description = "When given a singular TFM that is not EOL, it determines that it is not EOL.")]
 	public void TargetFrameworkThatIsNotEolCorrectlyShowsNotEol() {
-		const string TFM_TO_USE = "net6.0";
+		const string TFM_TO_USE = "net8.0";
 
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
-		CollectionAssert.IsEmpty(eolResults.EndOfLifeTargetFrameworks);
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Is.Empty);
 	}
 
 	[Test(Description = "When given two TFM's where both are EOL, it determines that they are both EOL.")]
@@ -45,9 +45,9 @@ public class TargetFrameworkEndOfLifeHelperTests {
 
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
-		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("netcoreapp2.1", new DateTime(2021, 08, 21)));
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Is.Not.Empty);
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Has.Member(new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12, 0, 0, 0, DateTimeKind.Utc))));
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Has.Member(new KeyValuePair<string, DateTime>("netcoreapp2.1", new DateTime(2021, 08, 21, 0, 0, 0, DateTimeKind.Utc))));
 	}
 
 	[Test(Description = "When given two TFM's where only one is EOL, it determines that the correct one is EOL.")]
@@ -56,9 +56,9 @@ public class TargetFrameworkEndOfLifeHelperTests {
 
 		TargetFrameworkCheckResponse eolResults = TargetFrameworkEndOfLifeHelper.CheckTargetFrameworkForEndOfLife(TFM_TO_USE);
 
-		CollectionAssert.IsNotEmpty(eolResults.EndOfLifeTargetFrameworks);
-		CollectionAssert.Contains(eolResults.EndOfLifeTargetFrameworks, new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12)));
-		CollectionAssert.DoesNotContain(eolResults.EndOfLifeTargetFrameworks.Keys, "net48");
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Is.Not.Empty);
+		Assert.That(eolResults.EndOfLifeTargetFrameworks, Has.Member(new KeyValuePair<string, DateTime>("net45", new DateTime(2016, 01, 12, 0, 0, 0, DateTimeKind.Utc))));
+		Assert.That(eolResults.EndOfLifeTargetFrameworks.Keys, Has.No.Member("net48"));
 	}
 
 	[Test(Description = "When given no TFM's, an exception is thrown.")]
@@ -86,7 +86,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 	public void GettingAllEndOfLifeTargetFrameworksWithoutForecastingReturnsNonEmptyList() {
 		TargetFrameworkCheckResponse allCurrentEolTfms = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers();
 
-		CollectionAssert.IsNotEmpty(allCurrentEolTfms.EndOfLifeTargetFrameworks);
+		Assert.That(allCurrentEolTfms.EndOfLifeTargetFrameworks, Is.Not.Empty);
 		//intentionally not asserting on number of TFMs since that is date-driven and mocking date isn't important enough for this to be honest
 	}
 
@@ -94,7 +94,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 	public void GettingAllEndOfLifeTargetFrameworksWithDayForecastingReturnsNonEmptyList() {
 		TargetFrameworkCheckResponse allCurrentEolTfms = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit.Day, 1);
 
-		CollectionAssert.IsNotEmpty(allCurrentEolTfms.EndOfLifeTargetFrameworks);
+		Assert.That(allCurrentEolTfms.EndOfLifeTargetFrameworks, Is.Not.Empty);
 		//intentionally not asserting on number of TFMs since that is date-driven and mocking date isn't important enough for this to be honest
 	}
 
@@ -102,7 +102,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 	public void GettingAllEndOfLifeTargetFrameworksWithWeekForecastingReturnsNonEmptyList() {
 		TargetFrameworkCheckResponse allCurrentEolTfms = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit.Week, 1);
 
-		CollectionAssert.IsNotEmpty(allCurrentEolTfms.EndOfLifeTargetFrameworks);
+		Assert.That(allCurrentEolTfms.EndOfLifeTargetFrameworks, Is.Not.Empty);
 		//intentionally not asserting on number of TFMs since that is date-driven and mocking date isn't important enough for this to be honest
 	}
 
@@ -110,7 +110,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 	public void GettingAllEndOfLifeTargetFrameworksWithMonthForecastingReturnsNonEmptyList() {
 		TargetFrameworkCheckResponse allCurrentEolTfms = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit.Month, 1);
 
-		CollectionAssert.IsNotEmpty(allCurrentEolTfms.EndOfLifeTargetFrameworks);
+		Assert.That(allCurrentEolTfms.EndOfLifeTargetFrameworks, Is.Not.Empty);
 		//intentionally not asserting on number of TFMs since that is date-driven and mocking date isn't important enough for this to be honest
 	}
 
@@ -118,7 +118,7 @@ public class TargetFrameworkEndOfLifeHelperTests {
 	public void GettingAllEndOfLifeTargetFrameworksWithYearForecastingReturnsNonEmptyList() {
 		TargetFrameworkCheckResponse allCurrentEolTfms = TargetFrameworkEndOfLifeHelper.GetAllEndOfLifeTargetFrameworkMonikers(TimeframeUnit.Year, 1);
 
-		CollectionAssert.IsNotEmpty(allCurrentEolTfms.EndOfLifeTargetFrameworks);
+		Assert.That(allCurrentEolTfms.EndOfLifeTargetFrameworks, Is.Not.Empty);
 		//intentionally not asserting on number of TFMs since that is date-driven and mocking date isn't important enough for this to be honest
 	}
 
